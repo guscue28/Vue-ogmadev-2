@@ -44,10 +44,10 @@
                   cols="42"
                   rows="5"
                   placeholder="Write your message her"
-                  v-model="datosPersona.mensaje"
+                  v-model="datosPersona.text"
                 ></textarea
                 ><br />
-                <span v-if="!datosPersona.mensaje" class="required"
+                <span v-if="!datosPersona.text" class="required"
                   >Mensage is required</span
                 >
               </div>
@@ -89,7 +89,7 @@
 </template>
 
 <script>
-import axios from "vue-axios";
+import axios from "axios";
 export default {
   name: "Low",
   data() {
@@ -97,7 +97,7 @@ export default {
       datosPersona: {
         name: "",
         email: "",
-        mensaje: "",
+        text: "",
       },
 
       enviado: true,
@@ -107,12 +107,25 @@ export default {
   },
   methods: {
     async enviar() {
-      var payload = JSON.stringify(this.datosPersona);
-      console.log(payload);
       this.enviado = true;
-      await axios.post("/project", payload).then((res) => {
-        console.log(res);
-      });
+      var payload = {
+        fullName: this.datosPersona.name,
+        email: this.datosPersona.email,
+        text: this.datosPersona.text,
+      };
+      await axios
+        .post("http://localhost:3700/api/save-project", payload)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          var data = err.response.data;
+          alert(data);
+        });
+      alert("Datos enviados correctamente");
+      this.datosPersona.name = "";
+      this.datosPersona.email = "";
+      this.datosPersona.text = "";
     },
     validar() {
       var arroba = this.datosPersona.email.indexOf("@");
@@ -130,7 +143,7 @@ export default {
       if (
         vm.datosPersona.name.length === 0 ||
         vm.datosPersona.email.length === 0 ||
-        vm.datosPersona.mensaje.length === 0
+        vm.datosPersona.text.length === 0
       ) {
         return true;
       } else {

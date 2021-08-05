@@ -11,8 +11,6 @@ Vue.use(IconsPlugin);
 Vue.use(VueScrollTo);
 Vue.use(VueAxios, axios);
 
-axios.default.baseURL = "http://localhost:3700/api";
-
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 
