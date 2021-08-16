@@ -113,14 +113,14 @@ export default {
         email: this.datosPersona.email,
         text: this.datosPersona.text,
       };
+      const url = "http://localhost:3700/mensaje/create";
       await axios
-        .post("http://localhost:3700/api/save-project", payload)
+        .post(url, payload)
         .then((res) => {
           console.log(res);
         })
         .catch((err) => {
-          var data = err.response.data;
-          alert(data);
+          console.log(err);
         });
       alert("Datos enviados correctamente");
       this.datosPersona.name = "";
